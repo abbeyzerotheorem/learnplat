@@ -13,11 +13,19 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check route
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: 'Learning platform backend is running',
+        routes: ['/api/auth', '/api/courses', '/api/enrollments']
+    });
+});
+
 // Routes
 app.use('/api/auth', require('./routes/auth.route'));
 app.use('/api/courses', require('./routes/course.route'));
 app.use('/api/enrollments', require('./routes/enrollment.route'));
-// Remove the user.routes line or create the file if needed
 
 // Error handling middleware
 app.use((err, req, res, next) => {
